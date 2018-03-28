@@ -17,7 +17,7 @@ var textarea = document.getElementById("textarea");
 function textsenden() {
     var text =  document.getElementById("input_text").value;  
     
-    document.getElementById("textarea").value=document.getElementById("textarea").value + '\n'  + text.substr(0,40); 
+    document.getElementById("textarea").value=document.getElementById("textarea").value + '\n'  + 'localhost:' + '\t'  +text.substr(0,40); 
     var coorjs = { "type":"2","ip":"xxx","text":text };
     s.send(JSON.stringify(coorjs));
     document.getElementById("input_text").value='';
@@ -32,10 +32,9 @@ s.addEventListener('message', function (m) {
 
   var nachricht = JSON.parse(m.data);
   if (nachricht.type == 2){
-     document.getElementById("textarea").value= document.getElementById("textarea").value + '\n'  + nachricht.ip +':' + nachricht.text; 
+     document.getElementById("textarea").value= document.getElementById("textarea").value + '\n'  + nachricht.ip +':'  + '\t'  + nachricht.text; 
   } 
 });
-
 </script>
 </body>
 </html>
