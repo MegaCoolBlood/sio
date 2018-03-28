@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+</style>
+</head>
+<body>
+<input type="text" id="input_text" onchange="textsenden()" size="40"> <button type="button" id="BUTTON" onclick="textsenden()" >SEND</button><br>
+<br>
+<textarea id="textarea" rows = "20" cols = "60"></textarea>
+
+<script>
+window.addEventListener('beforeunload', function () { ws.close(); });
+var textarea = document.getElementById("textarea");
+
+function textsenden() {
+    var text =  document.getElementById("input_text").value;  
+    
+    document.getElementById("textarea").value=document.getElementById("textarea").value + '\n'  + text.substr(1,40); 
+    var coorjs = { "type":"2","ip":"xxx","text":text };
+    s.send(JSON.stringify(coorjs));
+    document.getElementById("input_text").value='';
+}
+
+var s = new WebSocket('ws://172.20.46.1:8080/');
+s.addEventListener('error', function (m) { console.log("error"); });
+s.addEventListener('open', function (m) { console.log("websocket connection open"); });
+
+s.addEventListener('message', function (m) { 
+  console.log(m.data); 
+
+  var nachricht = JSON.parse(m.data);
+  if (nachricht.type == 2){
+     document.getElementById("textarea").value= document.getElementById("textarea").value + '\n'  + nachricht.ip +':' + nachricht.text; 
+  } 
+});
+
+</script>
+</body>
+</html>

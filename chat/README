@@ -1,0 +1,22 @@
+# console.log des Containers wsserver anzeigen
+docker logs -t wsserver
+
+# docker build erzeugt ein Image spe/node_ws nach Vorgabe von "Dockerfile"
+docker build -t spe/node_ws .i
+
+# Image als Container starten. spe/node_ws startet node mit der Datei broadcast.js
+docker run -d --name wsserver -p 8080:8080  -v $PWD:/root spe/node_ws
+
+docker run -d --name wsserver -p 80:80 -p 8080:8080  -v $PWD:/root spe/node_ws
+
+
+# nginx starten
+docker run --name testnginx -v $PWD:/usr/share/nginx/html -p 80:80 -d nginx
+
+
+#Alle Container stoppen und loeschen
+docker stop $(docker ps -a -q)
+docker rm $(docker ps -a -q)
+
+# Images mit <none> Tag löschen
+docker rmi $(docker images -f "dangling=true" -q)
