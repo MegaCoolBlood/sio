@@ -17,7 +17,7 @@ var textarea = document.getElementById("textarea");
 function textsenden() {
     var text =  document.getElementById("input_text").value;  
     
-    document.getElementById("textarea").value=document.getElementById("textarea").value + '\n'  + text.substr(1,40); 
+    document.getElementById("textarea").value=document.getElementById("textarea").value + '\n'  + text.substr(0,40); 
     var coorjs = { "type":"2","ip":"xxx","text":text };
     s.send(JSON.stringify(coorjs));
     document.getElementById("input_text").value='';
