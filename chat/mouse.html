@@ -8,7 +8,7 @@
 <body>
 <input type="text" id="input_text" onchange="textsenden()" size="40"> <button type="button" id="BUTTON" onclick="textsenden()" >SEND</button><br>
 <br>
-<textarea id="textarea" rows = "20" cols = "60"></textarea>
+<textarea id="textarea" rows = "20" cols = "60" readonly></textarea>
 
 <script>
 window.addEventListener('beforeunload', function () { ws.close(); });
