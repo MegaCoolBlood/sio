@@ -6,10 +6,22 @@
 </style>
 </head>
 <body>
+  <table><tr>
+<th>
+  
+    <div>
+        <canvas id="myCanvas" width="1200" height="600" style="cursor:crosshair" style="border:1px solid #d3d3d3;">
+      </div>
+    
+      <p id="demo"></p>
+
+</th>
+<th>
 <input type="text" id="input_text" onchange="textsenden()" size="40"> <button type="button" id="BUTTON" onclick="textsenden()" >SEND</button><br>
 <br>
 <textarea id="textarea" rows = "20" cols = "60" readonly></textarea>
-
+</th></tr></table>
+<script src="mouse.js"></script>
 <script src="chat.js"></script>
 </body>
 </html>
