@@ -18,6 +18,14 @@ services:
      - "8080:8080"
     volumes:
     - .:/root
+  node:
+    image: 'spe/node_ws:latest'
+    networks:
+    - net99
+    ports:
+     - "8081:8080"
+    volumes:
+    - .:/root
 networks:
   net99:
     driver: bridge

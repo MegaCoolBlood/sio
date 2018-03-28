@@ -2,9 +2,10 @@
 # docker build erzeugt ein Image spe/node_ws nach Vorgabe von "Dockerfile"
 docker build -t spe/node_canvas .
 
+
+####Übergeordnetes Verzeichnis####
 # Image als Container starten. spe/node_ws startet node mit der Datei broadcast.js
 docker run -d --name node_canvas -p 8080:8080  -v $PWD:/root spe/node_canvas
-
 
 # nginx starten
 docker run --name testnginx -v $PWD:/usr/share/nginx/html -p 80:80 -d nginx

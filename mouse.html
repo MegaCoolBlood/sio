@@ -27,7 +27,7 @@
     }
    
     var mycolor = get_random_color();
-    var s = new WebSocket('ws://172.20.43.7:8080/');
+    var s = new WebSocket('ws://'+window.location.host+':8080/');
 
     myCanvas.addEventListener("mousedown", function (e) {
           mousedown=true;
