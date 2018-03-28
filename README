@@ -1,5 +1,13 @@
 ###In den Untergeordneten Verzeichnissen die README lesen und ausführen###
 
+#Alles mit der Docker-Compose starten
+docker-compose up -d
+
+
+
+
+###Zusätzliche Möglichkeiten
+
 # console.log des Containers wsserver anzeigen
 docker logs -t wsserver
 
