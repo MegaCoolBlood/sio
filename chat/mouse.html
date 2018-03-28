@@ -23,7 +23,7 @@ function textsenden() {
     document.getElementById("input_text").value='';
 }
 
-var s = new WebSocket('ws://172.20.46.1:8080/');
+var s = new WebSocket('ws://'+window.location.host+':8080/');
 s.addEventListener('error', function (m) { console.log("error"); });
 s.addEventListener('open', function (m) { console.log("websocket connection open"); });
 
