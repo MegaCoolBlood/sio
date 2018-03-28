@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html>
+<head>
+<style>
+
+</style>
+</head>
+<body>
+<th><td><div>
+<canvas id="myCanvas" width="1200" height="600" style="cursor:crosshair" style="border:1px solid #d3d3d3;">
+</div>
+<p id="demo"></p></td>
+<td>
+<input type="text" id="input_text" onchange="textsenden()" size="40"> <button type="button" id="BUTTON" onclick="textsenden()" >SEND</button><br>
+<br>
+<textarea id="textarea" rows = "20" cols = "60" readonly></textarea>
+</td></th>
+<script>
+window.addEventListener('beforeunload', function () { ws.close(); });
+var textarea = document.getElementById("textarea");
+
+function textsenden() {
+    var text =  document.getElementById("input_text").value;  
+    
+    document.getElementById("textarea").value=document.getElementById("textarea").value + '\n'  + 'localhost:' + '\t'  +text.substr(0,40); 
+    var coorjs = { "type":"2","ip":"xxx","text":text };
+    s.send(JSON.stringify(coorjs));
+    document.getElementById("input_text").value='';
+}
+
+var s = new WebSocket('ws://'+window.location.host+':8081/');
+s.addEventListener('error', function (m) { console.log("error"); });
+s.addEventListener('open', function (m) { console.log("websocket connection open"); });
+
+s.addEventListener('message', function (m) { 
+  console.log(m.data); 
+
+  var nachricht = JSON.parse(m.data);
+  if (nachricht.type == 2){
+     document.getElementById("textarea").value= document.getElementById("textarea").value + '\n'  + nachricht.ip +':'  + '\t'  + nachricht.text; 
+  } 
+});
+
+
+window.addEventListener('beforeunload', function () { ws.close(); });
+    var mousedown=false;
+    var mysize = 2; 
+     
+    function get_random_color() {
+      function c() {
+        var hex = Math.floor(Math.random() * 256).toString(16);
+        return ("0" + String(hex)).substr(-2); // pad with zero
+      }
+      return "#" + c() + c() + c();
+    }
+   
+    var mycolor = get_random_color();
+    var s = new WebSocket('ws://'+window.location.host+':8080/');
+
+    myCanvas.addEventListener("mousedown", function (e) {
+          mousedown=true;
+      document.getElementById("myCanvas").style.cursor="pointer";
+    }, false);
+
+    myCanvas.addEventListener("mousemove", function (e) {
+      if( mousedown == true){
+          zeichnePunkt(e);
+      }
+    }, false);
+
+
+    myCanvas.addEventListener("mouseup", function (e) {
+      mousedown=false;
+      document.getElementById("myCanvas").style.cursor="crosshair";
+    }, false);
+
+    s.addEventListener('error', function (m) { console.log("error"); });
+    s.addEventListener('open', function (m) { console.log("websocket connection open"); });
+    s.addEventListener('message', function (m) {
+      console.log(m.data);
+      var kreis = JSON.parse(m.data);
+      var mycolor = kreis.mycolor;
+      var x = kreis.x;
+      var y = kreis.y;
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.arc(x, y, mysize, 0, 2 * Math.PI);
+      ctx.strokeStyle = mycolor;
+      ctx.fillStyle = mycolor;
+      ctx.fill();
+      ctx.stroke();
+    });
+
+    function zeichnePunkt(e) {
+      var x = e.clientX;
+      var y = e.clientY;
+      var c = document.getElementById("myCanvas");
+      var ctx = c.getContext("2d");
+      ctx.beginPath();
+      ctx.arc(x, y, mysize, 0, 2 * Math.PI);
+      ctx.strokeStyle = mycolor;
+      ctx.fillStyle = mycolor;
+      ctx.fill();
+      ctx.stroke();
+      var coorjs = { "mycolor": mycolor, "x": x, "y": y };
+      document.getElementById("demo").innerHTML = JSON.stringify(coorjs);
+      s.send(JSON.stringify(coorjs));
+    }
+
+    function clearCoor() {
+      document.getElementById("demo").innerHTML = "";
+    }
+</script>
+</body>
+</html>

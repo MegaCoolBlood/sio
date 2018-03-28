@@ -1,6 +1,6 @@
 FROM node:latest
  
-COPY ./package.json /
+COPY package.json /
 #COPY broadcast.js /root
 #COPY mouse.html /root
  
